@@ -27,7 +27,7 @@ module Rack
 
       @root     = Pathname.new(options[:root] || Dir.pwd)
       
-      @enable_key = options[:enable_key] || true
+      @enable_key = options[:enable_key]
 
       if block_given?
         @config = Rack::Offline::Config.new(@root, &block)
