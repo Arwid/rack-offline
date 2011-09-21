@@ -26,6 +26,8 @@ module Rack
       end
 
       @root     = Pathname.new(options[:root] || Dir.pwd)
+      
+      @enable_key = options[:enable_key] || true
 
       if block_given?
         @config = Rack::Offline::Config.new(@root, &block)
@@ -45,7 +47,9 @@ module Rack
       key = @key || uncached_key
 
       body = ["CACHE MANIFEST"]
-      body << "# #{key}"
+      if @enable_key
+        body << "# #{key}"
+      end
       @config.cache.each do |item|
         body << URI.escape(item.to_s)
       end

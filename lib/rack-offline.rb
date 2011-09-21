@@ -12,11 +12,15 @@ module Rails
       root = config.paths.public.to_a.first
 
       block = cache_block(Pathname.new(root)) unless block_given?
+      
+      # don't need to generate a key if digest is on
+      enable_key = !config.assets.digest
 
       opts = {
         :cache => config.cache_classes,
         :root => root,
         :logger => Rails.logger
+        :enable_key => enable_key
       }.merge(options)
 
       super opts, &block
